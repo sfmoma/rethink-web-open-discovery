@@ -1,1 +1,36 @@
-[{"blue" : "is ok", "red" : "is my fave color"}]
+[{
+	"Exhibitions": {
+		"articles": [{
+				"title": "How to Know Things in Distributed Crowds",
+				"url": "https://openspace.sfmoma.org/2016/02/how-to-know-things-in-distributed-crowds/",
+				"author": "Christian Nagler",
+				"excerpt": "You are some sort of social engineer, or behavioral economist, or managerial scientist, or institutional ethnographer, or workflow dynamics consultant...",
+				"img": "https://s3-us-west-2.amazonaws.com/sfmomaopenspace/wp-content/uploads/2016/02/28155411/nagler2.jpg"
+			},
+			{
+				"title": "Other Half Orbit",
+				"url": "https://openspace.sfmoma.org/2015/03/other-half-orbit-2/",
+				"author": "unexpected projects",
+				"excerpt": "We met with Ingrid Rojas Contreras and Jeremiah Barber in the gallery of their current joint exhibition Lo real maravilloso at Mission Cultural Center to talk about their ongoing collaboration. Ingrid identifies primarily as a writer and Jeremiah as a visual artist; however, their connection and collaboration of more than a decade blurs boundaries between words and images.",
+				"img": "https://s3-us-west-2.amazonaws.com/sfmomaopenspace/wp-content/uploads/2015/05/01145914/up3.jpg"
+			}
+		]
+	},
+	"One on One": {
+		"articles": [{
+				"title": "Grace Ambrose on Martin Kippenberger",
+				"url": "https://openspace.sfmoma.org/2016/01/one-on-one-grace-ambrose-on-martin-kippenberger/",
+				"author": "Grace Ambrose",
+				"excerpt": "The English language owes many of its conventions to the German one, but we unfortunately did not inherit the...",
+				"img": "https://s3-us-west-2.amazonaws.com/sfmomaopenspace/wp-content/uploads/2016/01/21180057/kippenberger1.jpg"
+			},
+			{
+				"title": "Darkness at the Edge of Town: Steve Polta on Lewis Baltz",
+				"url": "https://openspace.sfmoma.org/2015/06/darkness-at-the-edge-of-town-steve-polta-on-lewis-baltz/",
+				"author": "Steve Polta",
+				"excerpt": "Lewis Baltz (b. Newport Beach CA 1945; d. Paris, 2014) In their totality, the series and surveys of photographer Lewis...",
+				"img": "https://s3-us-west-2.amazonaws.com/sfmomaopenspace/wp-content/uploads/2015/05/Baltz_1-600x404.jpg"
+			}
+		]
+	},
+}]

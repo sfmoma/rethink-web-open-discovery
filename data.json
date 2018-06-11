@@ -1,5 +1,5 @@
 [{
-	"Exhibitions": {
+		"tag": "Exhibitions",
 		"articles": [{
 				"title": "How to Know Things in Distributed Crowds",
 				"url": "https://openspace.sfmoma.org/2016/02/how-to-know-things-in-distributed-crowds/",
@@ -16,7 +16,8 @@
 			}
 		]
 	},
-	"One on One": {
+	{
+		"tag": "One on One",
 		"articles": [{
 				"title": "Grace Ambrose on Martin Kippenberger",
 				"url": "https://openspace.sfmoma.org/2016/01/one-on-one-grace-ambrose-on-martin-kippenberger/",
@@ -32,5 +33,5 @@
 				"img": "https://s3-us-west-2.amazonaws.com/sfmomaopenspace/wp-content/uploads/2015/05/Baltz_1-600x404.jpg"
 			}
 		]
-	},
-}]
+	}
+]

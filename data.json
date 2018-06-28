@@ -31,7 +31,25 @@
 				"author": "Steve Polta",
 				"excerpt": "Lewis Baltz (b. Newport Beach CA 1945; d. Paris, 2014) In their totality, the series and surveys of photographer Lewis...",
 				"img": "https://s3-us-west-2.amazonaws.com/sfmomaopenspace/wp-content/uploads/2015/05/Baltz_1-600x404.jpg"
+			},
+			{
+				"title": "Waterfall World",
+				"url": "https://openspace.sfmoma.org/2015/06/darkness-at-the-edge-of-town-steve-polta-on-lewis-baltz/",
+				"author": "Marcella Faustini",
+				"excerpt": "Lewis Baltz (b. Newport Beach CA 1945; d. Paris, 2014) In their totality, the series and surveys of photographer Lewis...",
+				"img": ""
 			}
 		]
-	}
-]
+	},
+		{
+			"tag": "Easter Egg",
+			"articles": [{
+					"title": "Easter Egg",
+					"url": "https://openspace.sfmoma.org/2016/01/one-on-one-grace-ambrose-on-martin-kippenberger/",
+					"author": "Velveteen Rabbit",
+					"excerpt": "This is an easter egg",
+					"img": "/images/sfmoma.png"
+				}
+			]
+
+	}]

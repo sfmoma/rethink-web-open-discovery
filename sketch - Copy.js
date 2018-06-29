@@ -1,27 +1,16 @@
 //array for the tile objects
 var tiles = [];
 var tiles2 = [];
-var tiles3 = [];
 
 //array for the image data
 var imageTiles = [];
 var imageTiles2 = [];
-var imageTiles3 = [];
 
 var logo;
 var data;
-var weather;
 var xoff=0;
 var textWidth;
-
-var movingForce;
-var movingForce2;
-
-var fence;
 var locationData;
-var h;
-var m;
-var s;
 
 //preload the image data
 function preload() {
@@ -30,15 +19,14 @@ function preload() {
   //  imageTiles[i] = loadImage('images/image' + i + '.jpg')
 //  }
 
-
-logo = loadImage('images/o.png');
+logo = loadImage('images/o.png')
 
 //call gotData function after preload
 data = loadJSON("data.json", gotData);
+
+locationData =  getCurrentPosition();
 //load font
 //myFont = loadFont('font/europa-regular.otf');
-weather=loadJSON("http://api.apixu.com/v1/current.json?key=3aa88fe0b9c44e0188d170132182606&q=94103", gotWeatherData);
-
 
 }
 
@@ -50,11 +38,6 @@ function windowResized(){
 function setup() {
   // put setup code here
 
- //establish geo fence - third number is radius
- fence = new geoFenceCircle(40.7506343, -75.1735422, 100, insideTheFence, outsideTheFence, 'mi');
-
- //getCurrentPosition(doThisOnLocation);
-
   //createcanvas the viewport size
   createCanvas(windowWidth, windowHeight);
   //createCanvas(500, 500);
@@ -62,6 +45,9 @@ function setup() {
 
   textWidth=100;
 //  loadJSON("dataxx.json",gotData);
+   console.log("hello, test");
+
+
 
   //initialize the first stream
   for (var i = 0; i < 20; i++) {
@@ -120,50 +106,23 @@ function setup() {
     tiles2[i] = new contentTile(position.x, position.y, width, height, img, position, velocity, acceleration, mass, title, author);
   }
 
-
-
-}
-
-function gotWeatherData() {
-
-// Get the angle (convert to radians)
-var windangle = radians(Number(weather.current.wind_degree));
-// Get the wind speed
-var windmag = Number(weather.current.wind_mph);
-
-// Make a vector
-wind = p5.Vector.fromAngle(windangle);
-
-console.log(windangle);
-console.log(windmag);
-
-//remap windspeed from JSON data
-var windmagConstrained = map(windmag, 0, 75, .001, .05);
-movingForce = createVector(windmagConstrained,0);
-movingForce2 = createVector(-windmagConstrained,0);
-
 }
 
 //do stuff when we get the json data
 function gotData(data) {
 
-console.log("got the JSON data, over and out!");
+console.log("got the JSON data, over and out commander!");
 console.log(data[0].tag);
 //console.log(data);
 //console.log(data[0]);
 //console.log(data[0].OneonOne.articles[0].img);
 
+
 //load the images into the tile array - stream 1
 for (var i = 0; i < data[0].articles.length; i++) {
   //define a 2d array for the data
   imageTiles[i]=[];
-
-  if (data[0].articles[i].img=="") {
-    imageTiles2[i][0] = loadImage("images/noimage.png");
-  } else {
-    imageTiles[i][0] = loadImage(data[0].articles[i].img)
-  }
-
+  imageTiles[i][0] = loadImage(data[0].articles[i].img)
   imageTiles[i][1] = data[0].articles[i].title;
   imageTiles[i][2] = data[0].articles[i].author;
 
@@ -172,56 +131,27 @@ for (var i = 0; i < data[0].articles.length; i++) {
 for (var i = 0; i < data[1].articles.length; i++) {
   //define a 2d array for the data
   imageTiles2[i]=[];
-
-  if (data[1].articles[i].img=="") {
-    imageTiles2[i][0] = loadImage("images/noimage.png");
-  } else {
-    imageTiles2[i][0] = loadImage(data[1].articles[i].img);
-  }
-
+  imageTiles2[i][0] = loadImage(data[1].articles[i].img)
   imageTiles2[i][1] = data[1].articles[i].title;
   imageTiles2[i][2] = data[1].articles[i].author;
-  //imageTiles.splice(imageTiles.length,0,loadImage(data[0].OneonOne.articles[i].img));
-}
-
-for (var i = 0; i < data[2].articles.length; i++) {
-  //define a 2d array for the data
-  imageTiles3[i]=[];
-
-  if (data[2].articles[i].img=="") {
-    imageTiles3[i][0] = loadImage("images/noimage.png");
-  } else {
-    imageTiles3[i][0] = loadImage(data[2].articles[i].img);
-  }
-
-  imageTiles3[i][1] = data[2].articles[i].title;
-  imageTiles3[i][2] = data[2].articles[i].author;
-  //imageTiles.splice(imageTiles.length,0,loadImage(data[0].OneonOne.articles[i].img));
+//  imageTiles.splice(imageTiles.length,0,loadImage(data[0].OneonOne.articles[i].img));
 }
 
 }
 
 function draw() {
   // put drawing code here
-   h = hour();
-   m = minute();
-   s = second();
-
-  var colorFade=map(h, 0, 24, 255, 50);
-  var colorFade2=map(m, 0, 60, 100, 0);
-  var colorFade3=map(m, 0, 60, 90, 0);
-
-  background(colorFade2,colorFade3,colorFade);
+  background(255);
 
   for (var i = 0; i < tiles.length; i++) {
   //  var gravity = createVector(4,0.2*tiles[i].mass);
 
     //perlin noise
-   //  xoff = xoff + 0.03;
-   //  var n = map(noise(xoff), 0, 1, -.01,.01);
-   //  console.log(n)
+  //  xoff = xoff + 0.03;
+  //  var n = map(noise(xoff), 0, 1, -.01,.01);
+  //  console.log(n)
 
-    //movingForce = createVector(.01,0);
+    var movingForce = createVector(.01,0);
     tiles[i].applyForce(movingForce);
 
     tiles[i].move(mouseX,mouseY,tiles[i]);
@@ -239,8 +169,8 @@ function draw() {
   //  var n = map(noise(xoff), 0, 1, -.01,.01);
   //  console.log(n)
 
-    //movingForce = createVector(-.01,0);
-    tiles2[i].applyForce(movingForce2);
+    var movingForce = createVector(-.01,0);
+    tiles2[i].applyForce(movingForce);
 
     tiles2[i].move(mouseX,mouseY,tiles[i]);
     tiles2[i].display();
@@ -249,78 +179,17 @@ function draw() {
 
   }
 
-  for (var i = 0; i < tiles3.length; i++) {
-  //  var gravity = createVector(4,0.2*tiles[i].mass);
-
-    //perlin noise
-  //  xoff = xoff + 0.03;
-  //  var n = map(noise(xoff), 0, 1, -.01,.01);
-  //  console.log(n)
-
-    //movingForce = createVector(-.01,0);
-    tiles3[i].applyForce(movingForce);
-
-    tiles3[i].move(mouseX,mouseY,tiles[i]);
-    tiles3[i].display();
-    tiles3[i].checkEdges();
+  //display open space logo
   //  tint(255,127);
-
-  }
-
-  //display the open space logo
   image(logo,(windowWidth/2)-200,(windowHeight/2)-200,400,400);
-
 
   var fps = frameRate();
   textSize(12);
-  fill(255,255,255);
+  fill(0,0,255);
   text("FPS: " + fps.toFixed(2), 10, 20);
-//  text("C: " + colorFade, 10, 60);
 
-//  text("T: " + h, 10, 40);
 //  noTint();
 //xoff=0;
-}
-
-function insideTheFence(position){
-    print("INlat: " + position.latitude);
-    print("INlong: " + position.longitude);
-    print("user is inside of the fence")
-
-    //initialize a easter egg stream
-    for (var i = 0; i < imageTiles3.length; i++) {
-
-      //select randomly from image array
-      var img=imageTiles3[i][0];
-      var title=imageTiles3[i][1];
-      var author=imageTiles3[i][2];
-
-      //scale width randomly
-      var width=img.width/random(1.5,4);
-      //calculate aspect ratio of image
-      var aspectRatio = img.height/img.width;
-      //change height to aspect ratio so image is scaled uniformly
-      var height=width*aspectRatio;
-
-      var x = random(0,windowHeight-height);
-
-      var position = createVector(random(windowWidth), x);
-      var velocity = createVector(random(-.25),0);
-      var acceleration = createVector(0,0);
-      var mass = random(aspectRatio*8,aspectRatio*16);
-
-      //var force = createVector(.2,0);
-
-      //construct tiles
-      tiles3[i] = new contentTile(position.x, position.y, width, height, img, position, velocity, acceleration, mass, title, author);
-    }
-
-}
-
-function outsideTheFence(position){
-    print("OUTlat: " + position.latitude);
-    print("OUTlong: " + position.longitude);
-    print("user is outside of the fence")
 }
 
 function mousePressed() {
@@ -353,20 +222,6 @@ function mousePressed() {
 
 }
 
-for (var i = tiles3.length-1; i >= 0; i--) {
-  tiles3[i].clicked(mouseX,mouseY,i);
-
-//if dragging exit the loop so multiple tiles are not selected
-if(tiles3[i].dragging) {
-  break;
-}
-
-  //if not dragging and clicking white space blow wind
-  var wind = createVector(10,0);
-  tiles3[i].applyForce(wind);
-
-}
-
 }
 
 function mouseReleased() {
@@ -378,16 +233,18 @@ function mouseReleased() {
      tiles2[i].dragging=false;
 }
 
-for (var i = 0; i < tiles3.length; i++) {
-    tiles3[i].dragging=false;
 }
 
+function doThisOnLocation(position){
+  console.log("hi");
+    console.log("lat: " + position.latitude);
+    console.log("long: " + position.longitude);
 }
 
 class contentTile {
 
   //the equals here is when no values are passed to the constructor, it defaults to these
-  constructor(x=0,y=0,width=25,height=25,imageSource='noimage.png', position, velocity, acceleration, mass, title, author) {
+  constructor(x=0,y=0,width=25,height=25,imageSource='image0.jpg', position, velocity, acceleration, mass, title, author) {
 
     //set up constructor with values
     this.x=x;
@@ -485,8 +342,7 @@ class contentTile {
    image(this.imageSource,this.position.x,this.position.y,this.width,this.height)
    //  rect(this.x, this.y, this.width, this.height);
    textSize(12);
-   var colorFade4=map(h, 0, 24, 0, 255);
-   fill(colorFade4,colorFade4,colorFade4);
+   fill(0,0,0);
    textFont("Georgia");
    //  noStroke();
    //  rect(this.position.x+this.width+5,this.position.y,105,105)

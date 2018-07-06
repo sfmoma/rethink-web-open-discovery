@@ -15,7 +15,7 @@ Each stream can have their own physics applied to them which can change the visu
 Easter eggs move opposite of wind added force of perlin noise for a semi-randomized movement
 The easter eggs are the sfmoma logos
 
-Easter eggs only appear if user is within 100 miles of the geoFenceCircle assigned to the sfmoma zipcode
+Easter eggs only appear if user is within 150 miles of the geoFenceCircle assigned to the sfmoma zipcode
 You can set the distance in geoFenceCircle
 Geofencing is only called once when program loads, but it can be set to automatically update by removing the fence.clear()
 

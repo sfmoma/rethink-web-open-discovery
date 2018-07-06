@@ -123,7 +123,7 @@ function setup() {
 
  //check weather every x milliseconds
  askWeather();
- setInterval(askWeather,10000);
+ setInterval(askWeather,10000000);
 
  //establish geo fence - third number is radius
  fence = new geoFenceCircle(37.785718, -122.401051, 150, insideTheFence, outsideTheFence, 'mi');
@@ -704,6 +704,7 @@ function dayNightPart() {
   if(h >= sunriseEnd && h < sunsetStart) {
   // daytime
    runTime = 0;
+   colorMap=255;
    colorMapRed=255;
    colorMapGreen=255;
    colorMapBlue=255;

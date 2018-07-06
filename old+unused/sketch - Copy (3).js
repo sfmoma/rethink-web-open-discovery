@@ -29,24 +29,17 @@ var weather;
 
 //for the wind forces
 var wind;
-var windangle;
-var windmag;
 var movingForce;
 var movingForce2;
 
 //for perlin noise
 var xoff=0;
-var yoff=0;
 
 //adjust width of text fields
 var textWidth;
 
 //for the day night parting
 var colorMap;
-var colorMap2;
-var colorMapRed;
-var colorMapGreen;
-var colorMapBlue;
 
 //for the geofence
 var fence;
@@ -81,12 +74,8 @@ data = loadJSON("data.json", gotData);
 //load a custom font
 //myFont = loadFont('font/europa-regular.otf');
 
-//weather=loadJSON("http://api.apixu.com/v1/current.json?key=3aa88fe0b9c44e0188d170132182606&q=94103", gotWeatherData);
+weather=loadJSON("http://api.apixu.com/v1/current.json?key=3aa88fe0b9c44e0188d170132182606&q=94103", gotWeatherData);
 
-}
-
-function askWeather() {
-loadJSON("http://api.apixu.com/v1/current.json?key=6836e9b60d19486981102955180607&q=94103", gotWeatherData);
 }
 
 //************************************
@@ -119,11 +108,6 @@ function windowResized(){
 
 function setup() {
   // put setup code here
- colorMode(RGB);
-
- //check weather every x milliseconds
- askWeather();
- setInterval(askWeather,10000000);
 
  //establish geo fence - third number is radius
  fence = new geoFenceCircle(37.785718, -122.401051, 150, insideTheFence, outsideTheFence, 'mi');
@@ -195,6 +179,8 @@ function setup() {
     var velocity = createVector(random(-.25),0);
     var acceleration = createVector(0,0);
     var mass = random(aspectRatio*8,aspectRatio*16);
+
+    //var force = createVector(.2,0);
 
     //construct tiles
     tiles2[j] = new contentTile(position.x, position.y, width, height, img, position, velocity, acceleration, mass, title, author, url);
@@ -290,25 +276,13 @@ for (var i = 0; i < data.length; i++) {
 //************************************
 //************************************
 //************************************
-//draw
 
 function draw() {
   // put drawing code here
 
   dayNightPart();
-  background(colorMapRed,colorMapGreen,colorMapBlue);
-
-  //error check if no weather data, or it's still loading, or an error
-  if(weather) {
-
-    displayWindDirection();
-
-  } else {
-
-    movingForce = createVector(0,0);
-    movingForce2 = createVector(0,0);
-
-  }
+  background(colorMap,colorMap,colorMap);
+  displayWindDirection();
 
   for (var i = 0; i < tiles.length; i++) {
 
@@ -317,9 +291,9 @@ function draw() {
     // var n = map(noise(xoff), 0, 1, -.01,.01);
     // console.log(n)
 
-    //  movingForce = createVector(.01,0);
+    //movingForce = createVector(.01,0);
     //wind.mult(.25);
-    //  movingForce.add(n);
+  //  movingForce.add(n);
     tiles[i].applyForce(movingForce);
 
     tiles[i].move(mouseX,mouseY,tiles[i]);
@@ -336,7 +310,7 @@ function draw() {
    //  var n = map(noise(xoff), 0, 1, -.01,.01);
    //  console.log(n)
 
-    tiles2[i].applyForce(movingForce);
+    tiles2[i].applyForce(movingForce2);
 
     tiles2[i].move(mouseX,mouseY,tiles[i]);
     tiles2[i].display();
@@ -345,26 +319,15 @@ function draw() {
 
   }
 
-  //************************************
-  //************************************
-  //************************************
-  //************************************
-  //easter eggs
-
   for (var i = 0; i < tiles3.length; i++) {
-
+  //  var gravity = createVector(4,0.2*tiles[i].mass);
 
     //perlin noise
-    xoff +=.05;
-    var n = map(noise(xoff), 0, 1, -.01,.01);
-    var o = map(noise(yoff), 0, 1, -.01,.01);
+  //  xoff = xoff + 0.03;
+  //  var n = map(noise(xoff), 0, 1, -.01,.01);
+  //  console.log(n)
 
-    //  console.log(n)
-    movingForce2.mult(0);
-    movingForce2.add(n,o);
-
-
-    tiles3[i].applyForce(movingForce2);
+    tiles3[i].applyForce(movingForce);
 
     tiles3[i].move(mouseX,mouseY,tiles[i]);
     tiles3[i].display();
@@ -372,21 +335,13 @@ function draw() {
 
   }
 
-  yoff+=.1;
   //display the open space logo
   image(logo,(windowWidth/2)-200,(windowHeight/2)-200,400,400);
 
   var fps = frameRate();
   textSize(12);
-  fill(colorMap2,colorMap2,colorMap2);
+  fill(0);
   text("FPS: " + fps.toFixed(2), 10, 20);
-
-  if(windangle!=undefined) {
-  text("W° " + floor(degrees(windangle)), 10, windowHeight-40);
-  text("WM: " + windmag, 10, windowHeight-25);
-  } else {
-  text("weather is off",10, windowHeight-25);
-}
 
 }
 
@@ -444,7 +399,7 @@ function insideTheFence(position){
       var x = random(0,windowHeight-height);
 
       var position = createVector(random(windowWidth), x);
-      var velocity = createVector(random(-.05,.05),random(-.05,.05));
+      var velocity = createVector(random(-.25),0);
       var acceleration = createVector(0,0);
       var mass = random(aspectRatio*8,aspectRatio*16);
 
@@ -453,7 +408,6 @@ function insideTheFence(position){
     }
 
     //clear the fence so it doesn't fire randomly - just once when loading
-    //uncomment to update dynamically
     fence.clear();
 }
 
@@ -492,23 +446,20 @@ function outsideTheFence(position){
 //************************************
 //do stuff with weather
 
-function gotWeatherData(data) {
-
-weather=data;
-//console.log(weather.current.wind_degree);
+function gotWeatherData() {
 
 // Get the angle (convert to radians)
-windangle = radians(Number(weather.current.wind_degree));
+var windangle = radians(Number(weather.current.wind_degree));
 //0 = 270, 180 = 270;
 //console.log(windangle+"deg");
 // Get the wind speed
-windmag = Number(weather.current.wind_mph);
+var windmag = Number(weather.current.wind_mph);
 
 // Make a vector from windangle
 wind = p5.Vector.fromAngle(windangle);
 
-//console.log((Number(weather.current.wind_degree)) + " wind angle");
-//console.log(windmag + " mph wind speed");
+console.log((Number(weather.current.wind_degree)) + " wind angle");
+console.log(windmag + " mph wind speed");
 
 //remap windspeed from JSON data 0 - 60mph = 0-0.01
 var windmagConstrained = map(windmag, 0, 60, 0, 0.01);
@@ -531,24 +482,24 @@ wind.mult(windmagConstrained);
 
 function displayWindDirection() {
 
-   push();
-   translate(35, height - 70);
+  push();
+   translate(40, height - 50);
    // Rotate by the wind's angle
+   //rotate(wind.heading()+PI);
+
    rotate(wind.heading()+PI/2);
 
-  // rotate(wind.heading()+PI/2);
+   noStroke();
+   fill(127,127);
+   ellipse(0, 0, 48, 48);
+
+   stroke(255, 255, 255);
+   strokeWeight(3);
+   line(0, -16, 0, 16);
 
    noStroke();
-   fill(colorMap2);
-   ellipse(0, 0, 30, 30);
-
-   stroke(colorMap);
-   strokeWeight(1.5);
-   line(0, -8, 0, 8);
-
-   noStroke();
-   fill(colorMap);
-   triangle(0, -8, -5, 0, 5, 0);
+   fill(255, 255, 255);
+   triangle(0, -18, -6, -10, 6, -10);
    pop();
 
 }
@@ -578,7 +529,7 @@ function mousePressed() {
   }
 
     //if not dragging and clicking white space blow wind
-    var force = createVector(-2.5,0);
+    var force = createVector(-2,0);
     tiles[i].applyForce(force);
 
  }
@@ -592,7 +543,7 @@ function mousePressed() {
  }
 
    //if not dragging and clicking white space blow wind
-   var force = createVector(2.5,0);
+   var force = createVector(2,0);
    tiles2[i].applyForce(force);
 
 }
@@ -606,7 +557,7 @@ if(tiles3[i].dragging) {
 }
 
   //if not dragging and clicking white space blow wind
-  var force = createVector(Math.random(0),Math.random(2));
+  var force = createVector(3,0);
   tiles3[i].applyForce(force);
 
 }
@@ -670,84 +621,43 @@ function dayNightPart() {
   var m = minute();
   var s = second();
 
-  //military time
+
   var sunriseStart = 5;
-  var sunriseEnd = 6;
-  var sunsetStart = 18;
-  var sunsetEnd = 21;
+  var sunriseEnd = 8;
+  var sunsetStart = 17;
+  var sunsetEnd = 20;
   var sunsetDuration=(sunsetEnd-sunsetStart)*60;
   var sunriseDuration=(sunriseEnd-sunriseStart)*60;
-  //print(h);
 
 
-  if(h >= sunriseStart && h < sunriseEnd ) {
+  if(h > sunriseStart && h <= sunriseEnd ) {
     //sunrise
-    var elapsed = (abs(sunriseStart-h)*60)+m;
-    colorMap=map(elapsed,0,sunriseDuration,0,255);
+    runtime = sunriseDuration-m;
+    runtime++;
 
-    //remap time to different rates for colors
-    remapR=floor(map(elapsed,20,60,0,60));
-    remapG=floor(map(elapsed,5,60,0,60));
-    remapB=floor(map(elapsed,12,60,0,60));
-
-    //map to colors
-    colorMapRed=map(remapR,0,sunriseDuration,0,255);
-    colorMapGreen=map(remapG,0,sunriseDuration,0,255);
-    colorMapBlue=map(remapB,0,sunriseDuration,0,255);
-
-     print(colorMapRed + "red");
-     print(colorMapGreen + "green");
-     print(colorMapBlue + "blue");
-
+    colorMap=map(runtime,sunriseDuration,0,0,255);
   }
 
   if(h >= sunriseEnd && h < sunsetStart) {
   // daytime
    runTime = 0;
-   colorMapRed=255;
-   colorMapGreen=255;
-   colorMapBlue=255;
+   colorMap=255;
   }
 
   if(h >= sunsetStart && h < sunsetEnd ) {
     //sunset
-    var elapsed = (abs(sunsetStart-h)*60)+m;
-    //print(sunsetEnd);
-
-    //remap time to different rates for colors
-    remapR=map(elapsed,15,60,0,60);
-    remapG=floor(map(elapsed,10,60,0,60));
-    remapB=floor(map(elapsed,6,60,0,60));
-
-    //map to colors
-    colorMapRed=map(remapR,0,sunsetDuration,255,0);
-    colorMapGreen=map(remapG,0,sunsetDuration,255,0);
-    colorMapBlue=map(remapB,0,sunsetDuration,255,0);
-
-    //print(colorMapGreen + "g")
-  //  print(colorMapBlue + "b")
-
-
-    colorMap=map(elapsed,0,sunsetDuration,255,0);
-
+    runtime = sunsetDuration-m;
+    runtime++;
+    colorMap=map(runtime,sunsetDuration,0,255,0);
   }
 
   if(h >= sunsetEnd || h < sunriseStart) {
    //night time
    runtime=0;
    colorMap=0;
-   colorMapRed=0;
-   colorMapGreen=0;
-   colorMapBlue=0;
-
   }
 
-  //for text
-  colorMap2=constrain(350-colorMap,0,255);
-
 }
-
-
 
 //************************************
 //************************************
@@ -870,7 +780,7 @@ class contentTile {
        this.velocity.y*=0.5;
        this.position.y=0-this.height;
 
-    } else if(this.position.y < 0-this.height-200) {
+    } else if(this.position.y < 0-this.height) {
       this.velocity.y*=0.5;
       this.position.y=windowHeight;
     }
@@ -886,7 +796,7 @@ class contentTile {
    textSize(12);
   // var colorFade2=map(h, 0, 24, 0, 255);
    //invert text color from background
-   fill(colorMap2,colorMap2,colorMap2);
+   fill(360-colorMap,360-colorMap,360-colorMap);
    textFont("Georgia");
 
    text(this.title + " by " + this.author, this.position.x+this.width+10, this.position.y,textWidth,150);

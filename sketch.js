@@ -141,7 +141,7 @@ function setup() {
 
  //check weather every x milliseconds
  askWeather();
- setInterval(askWeather,20000);
+ setInterval(askWeather,40000);
 
  //establish geo fence - third number is radius
  fence = new geoFenceCircle(37.785718, -122.401051, 150, insideTheFence, outsideTheFence, 'mi');
@@ -649,7 +649,7 @@ movingForce2.sub(wind);
 
 wind.mult(windmagConstrained);
 //movingForce.div(40);
-
+voice.speak("Updating wind data. Current wind speed is"+windmag+"miles per hour and current win direction is"+degrees(windangle)+"degrees.");
 }
 
 
@@ -849,7 +849,6 @@ function dayNightPart() {
 
     //print(colorMapGreen + "g")
    //  print(colorMapBlue + "b")
-
 
     colorMap=map(elapsed,0,sunsetDuration,255,0);
 

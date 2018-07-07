@@ -52,6 +52,17 @@ var colorMapBlue;
 var fence;
 var locationData;
 
+//for accessibility tabbing
+var tabIndex;
+var tabIndex2;
+var tabIndex3;
+var accessibilityURL;
+var voice;
+var sunriseStart;
+var sunriseEnd;
+var h;
+var m;
+
 //************************************
 //************************************
 //************************************
@@ -121,9 +132,15 @@ function setup() {
   // put setup code here
  colorMode(RGB);
 
+ //needed for accessbility
+ tabIndex=-1;
+ tabIndex2=-1;
+ tabIndex3=-1;
+ voice = new p5.Speech(voiceReady); // speech synthesis object
+
  //check weather every x milliseconds
  askWeather();
- setInterval(askWeather,10000000);
+ setInterval(askWeather,20000);
 
  //establish geo fence - third number is radius
  fence = new geoFenceCircle(37.785718, -122.401051, 150, insideTheFence, outsideTheFence, 'mi');
@@ -200,9 +217,112 @@ function setup() {
     tiles2[j] = new contentTile(position.x, position.y, width, height, img, position, velocity, acceleration, mass, title, author, url);
   }
 
+}
+
+//************************************
+//************************************
+//************************************
+//************************************
+//************************************
+//************************************
+//************************************
+//************************************
+//************************************
+//************************************
+//************************************
+//do accessibility stuff with the keyboard and speech
+
+function voiceReady() {
+//  add stuff here when ready if needed;
+}
+
+function keyReleased() {
+
+  if (keyCode === LEFT_ARROW) {
+    //decrement through the streams backwards
+    if(tabIndex2>=tiles2.length-1  && tabIndex3 >= 1) {
+      tabIndex3--;
+      tiles3[tabIndex3].bounds=true;
+      tiles3[tabIndex3+1].bounds=false;
+      var url=tiles3[tabIndex3].url
+      voice.speak(tiles3[tabIndex3].title + "by" + tiles3[tabIndex3].author)
+    } else if(tabIndex>=tiles.length-1  && tabIndex2 >= 1) {
+      //turn off previous tile boundary
+      tiles3[0].bounds=false;
+      tabIndex2--;
+      tiles2[tabIndex2].bounds=true;
+      tiles2[tabIndex2+1].bounds=false;
+      var url=tiles2[tabIndex2].url
+      voice.speak(tiles2[tabIndex2].title + "by" + tiles2[tabIndex2].author)
+    } else if(tabIndex>=1) {
+      //turn off previous tile boundary
+      tiles2[0].bounds=false;
+      tabIndex--;
+      tiles[tabIndex].bounds=true;
+      tiles[tabIndex+1].bounds=false;
+      var url=tiles[tabIndex].url
+      voice.speak(tiles[tabIndex].title + "by" + tiles[tabIndex].author)
 
 }
 
+}
+
+
+  if (keyCode === RIGHT_ARROW) {
+    //increment through the streams
+    if(tabIndex<tiles.length-1) {
+    tabIndex++;
+    tiles[tabIndex].bounds=true;
+    accessibilityURL=tiles[tabIndex].url
+    voice.speak(tiles[tabIndex].title + "by" +tiles[tabIndex].author)
+
+    //need to turn off previous tiles
+    if(tabIndex>0) tiles[tabIndex-1].bounds=false;
+  } else if(tabIndex>=tiles.length-1  && tabIndex2 < tiles2.length -1) {
+    tiles[tabIndex].bounds=false;
+    tabIndex2++;
+    tiles2[tabIndex2].bounds=true;
+    accessibilityURL=tiles2[tabIndex2].url
+    voice.speak(tiles2[tabIndex2].title + "by" +tiles[tabIndex2].author)
+
+    //need to turn off previous tiles
+    if(tabIndex2>0) tiles2[tabIndex2-1].bounds=false;
+  } else if(tabIndex2>=tiles2.length-1 && tabIndex3 < tiles3.length-1) {
+    tiles2[tabIndex2].bounds=false;
+    tabIndex3++;
+    tiles3[tabIndex3].bounds=true;
+    accessibilityURL=tiles3[tabIndex3].url
+    voice.speak(tiles3[tabIndex3].title + "by" +tiles3[tabIndex3].author)
+
+    //need to turn off previous tiles
+    if(tabIndex3>0) tiles3[tabIndex3-1].bounds=false;
+  }
+
+
+    //div0.remove();
+    //div0 = createDiv('this is a DIV'+tabIndex);
+    //div0.remove();
+
+  }
+
+
+//  if (keyCode === TAB) {
+//  }
+
+  if (keyCode === ENTER) {
+    if(accessibilityURL!=undefined){
+    window.open(accessibilityURL);
+    voice.speak("Opening Open Space article:" + accessibilityURL)
+  }
+  }
+
+  if (keyCode === SHIFT) {
+
+    voice.speak("Welcome to S F MOMA's Open Space Waterfall Interface. To select an article navigate using the left or right arrows. Hit enter to open an article. A series of articles is gently floating across the screen based on the wind direction and speed at the museum. Current wind speed is"+windmag+"miles per hour and current win direction is"+degrees(windangle)+"degrees. Sunset happens at "+sunsetStart+"hundred hours and sunrise starts at "+sunriseStart+" hundred hours. The background colors gently shift to reflect a meditative experience that spans from day time to night time. Current time at the museum is" + h + "hundred hours" + m + "minutes. We hope you enjoy your stay and discover a wealth of engaging content.");
+  }
+
+//  print(tabIndex);
+}
 
 //************************************
 //************************************
@@ -666,14 +786,14 @@ function dayNightPart() {
 
   var runtime;
 
-  var h = hour();
-  var m = minute();
+   h = hour();
+   m = minute();
   var s = second();
 
   //military time
-  var sunriseStart = 5;
+  sunriseStart = 5;
   var sunriseEnd = 6;
-  var sunsetStart = 18;
+  sunsetStart = 18;
   var sunsetEnd = 21;
   var sunsetDuration=(sunsetEnd-sunsetStart)*60;
   var sunriseDuration=(sunriseEnd-sunriseStart)*60;
@@ -726,7 +846,7 @@ function dayNightPart() {
     colorMapBlue=map(remapB,0,sunsetDuration,255,0);
 
     //print(colorMapGreen + "g")
-  //  print(colorMapBlue + "b")
+   //  print(colorMapBlue + "b")
 
 
     colorMap=map(elapsed,0,sunsetDuration,255,0);
@@ -878,13 +998,25 @@ class contentTile {
 
   }
 
+ showBounds() {
+   push();
+   translate(0, 0);
+   noFill();
+   stroke(255,0,0)
+   strokeWeight(3);
+   rect(this.position.x,this.position.y,this.width,this.height);
+   pop();
 
-  display() {
+ }
+
+  display(bounds) {
 
    //display the images
    image(this.imageSource,this.position.x,this.position.y,this.width,this.height)
+   if(this.bounds) this.showBounds();
 
    textSize(12);
+
   // var colorFade2=map(h, 0, 24, 0, 255);
    //invert text color from background
    fill(colorMap2,colorMap2,colorMap2);

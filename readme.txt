@@ -36,7 +36,15 @@ Tiles are draggable
 Double clicking opens the article URL in a new window
 Tiles have a random mass assigned to them based on their aspectRatio, and tiles with more mass react slower to forces
 Tiles are randomly sized by aspect ratio, and constrained in the case of a giant image being uploaded
+Tiles with no images are represented by the open space "O"
 Physics are damped slightly when a tile leaves the screen and renters
 Clicking on white space applies a force vector to the objects, like an additional wind force
 
 Canvas boundaries update dynamically if you change the window size (i.e. tiles will know their boundaries in space)
+
+Accessibility Narration + Interface:
+
+Shift - welcome / Instructions
+Right arrow - advance article
+Left arrow - previous article
+Enter - open article

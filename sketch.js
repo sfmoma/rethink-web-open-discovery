@@ -132,11 +132,12 @@ function setup() {
   // put setup code here
  colorMode(RGB);
 
- //needed for accessbility
+ //needed for accessbility - have to start at -1 so when user pressed right arrow for first time it increments to 0
  tabIndex=-1;
  tabIndex2=-1;
  tabIndex3=-1;
  voice = new p5.Speech(voiceReady); // speech synthesis object
+ voice.speak("Please press shift for screen accessibility instructions.")
 
  //check weather every x milliseconds
  askWeather();
@@ -153,8 +154,8 @@ function setup() {
   textWidth=100;
 
   //initialize the first stream - this is the second half of the articles, so count backwards
-  for (var i = floor(imageTiles.length / 2); i >= 0; i--) {
-
+  //subtract one from length to avoid overlap, duplicate tile in both streams
+  for (var i = floor(imageTiles.length / 2)-1; i >= 0; i--) {
     //can use the picker below for random articles
     //var picker = floor(random(0,imageTiles.length));
 
@@ -239,6 +240,7 @@ function voiceReady() {
 function keyReleased() {
 
   if (keyCode === LEFT_ARROW) {
+
     //decrement through the streams backwards
     if(tabIndex2>=tiles2.length-1  && tabIndex3 >= 1) {
       tabIndex3--;
@@ -247,6 +249,7 @@ function keyReleased() {
       var url=tiles3[tabIndex3].url
       voice.speak(tiles3[tabIndex3].title + "by" + tiles3[tabIndex3].author)
     } else if(tabIndex>=tiles.length-1  && tabIndex2 >= 1) {
+
       //turn off previous tile boundary
       tiles3[0].bounds=false;
       tabIndex2--;
@@ -255,6 +258,7 @@ function keyReleased() {
       var url=tiles2[tabIndex2].url
       voice.speak(tiles2[tabIndex2].title + "by" + tiles2[tabIndex2].author)
     } else if(tabIndex>=1) {
+
       //turn off previous tile boundary
       tiles2[0].bounds=false;
       tabIndex--;
@@ -278,6 +282,7 @@ function keyReleased() {
 
     //need to turn off previous tiles
     if(tabIndex>0) tiles[tabIndex-1].bounds=false;
+
   } else if(tabIndex>=tiles.length-1  && tabIndex2 < tiles2.length -1) {
     tiles[tabIndex].bounds=false;
     tabIndex2++;
@@ -287,11 +292,14 @@ function keyReleased() {
 
     //need to turn off previous tiles
     if(tabIndex2>0) tiles2[tabIndex2-1].bounds=false;
+
   } else if(tabIndex2>=tiles2.length-1 && tabIndex3 < tiles3.length-1) {
     tiles2[tabIndex2].bounds=false;
     tabIndex3++;
     tiles3[tabIndex3].bounds=true;
     accessibilityURL=tiles3[tabIndex3].url
+
+    //bug here, voice will repeat forever
     voice.speak(tiles3[tabIndex3].title + "by" +tiles3[tabIndex3].author)
 
     //need to turn off previous tiles
@@ -301,13 +309,9 @@ function keyReleased() {
 
     //div0.remove();
     //div0 = createDiv('this is a DIV'+tabIndex);
-    //div0.remove();
 
   }
 
-
-//  if (keyCode === TAB) {
-//  }
 
   if (keyCode === ENTER) {
     if(accessibilityURL!=undefined){
@@ -318,7 +322,7 @@ function keyReleased() {
 
   if (keyCode === SHIFT) {
 
-    voice.speak("Welcome to S F MOMA's Open Space Waterfall Interface. To select an article navigate using the left or right arrows. Hit enter to open an article. A series of articles is gently floating across the screen based on the wind direction and speed at the museum. Current wind speed is"+windmag+"miles per hour and current win direction is"+degrees(windangle)+"degrees. Sunset happens at "+sunsetStart+"hundred hours and sunrise starts at "+sunriseStart+" hundred hours. The background colors gently shift to reflect a meditative experience that spans from day time to night time. Current time at the museum is" + h + "hundred hours" + m + "minutes. We hope you enjoy your stay and discover a wealth of engaging content.");
+    voice.speak("Welcome to S F MOMA's Open Space Waterfall Experiment. To select an article navigate using the left or right arrows. Hit enter to open an article. A series of articles that appear as tiles are gently floating across the screen based on the wind direction and speed at the museum. Current wind speed is"+windmag+"miles per hour and current win direction is"+degrees(windangle)+"degrees. Sunset happens at "+sunsetStart+"hundred hours and sunrise starts at "+sunriseStart+" hundred hours. The background colors gently shift to reflect a meditative experience that spans from day time to night time. Current time at the museum is" + h + "hundred hours" + m + "minutes. We hope you enjoy your stay with us and discover a wealth of engaging content.");
   }
 
 //  print(tabIndex);
@@ -784,11 +788,9 @@ for (var i = 0; i < tiles3.length; i++) {
 
 function dayNightPart() {
 
-  var runtime;
-
    h = hour();
    m = minute();
-  var s = second();
+   //var s = second();
 
   //military time
   sunriseStart = 5;
@@ -999,10 +1001,11 @@ class contentTile {
   }
 
  showBounds() {
+
    push();
    translate(0, 0);
    noFill();
-   stroke(255,0,0)
+   stroke(0,0,255)
    strokeWeight(3);
    rect(this.position.x,this.position.y,this.width,this.height);
    pop();

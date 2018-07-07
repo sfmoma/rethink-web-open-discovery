@@ -44,7 +44,7 @@ Canvas boundaries update dynamically if you change the window size (i.e. tiles w
 
 Accessibility Narration + Interface:
 
-Shift - welcome / Instructions
+Shift - welcome / instructions
 Right arrow - advance article
 Left arrow - previous article
 Enter - open article

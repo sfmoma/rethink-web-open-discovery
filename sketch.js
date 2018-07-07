@@ -322,7 +322,7 @@ function keyReleased() {
 
   if (keyCode === SHIFT) {
 
-    voice.speak("Welcome to S F MOMA's Open Space Waterfall Experiment. To select an article navigate using the left or right arrows. Hit enter to open an article. A series of articles that appear as tiles are gently floating across the screen based on the wind direction and speed at the museum. Current wind speed is"+windmag+"miles per hour and current win direction is"+degrees(windangle)+"degrees. Sunset happens at "+sunsetStart+"hundred hours and sunrise starts at "+sunriseStart+" hundred hours. The background colors gently shift to reflect a meditative experience that spans from day time to night time. Current time at the museum is" + h + "hundred hours" + m + "minutes. We hope you enjoy your stay with us and discover a wealth of engaging content.");
+    voice.speak("Welcome to S F MOMA's Open Space. To select an article navigate using the left or right arrows. Hit enter to open an article. A series of articles that appear as tiles are gently floating across the screen based on the wind direction and speed at the museum. Current wind speed is"+windmag+"miles per hour and current win direction is"+degrees(windangle)+"degrees. Sunset happens at "+sunsetStart+"hundred hours and sunrise starts at "+sunriseStart+" hundred hours. The background colors gently shift to reflect an real time experience that spans from day time to night time. Current time at the museum is" + h + "hundred hours" + m + "minutes. We hope you enjoy your stay with us and discover a wealth of engaging content.");
   }
 
 //  print(tabIndex);
@@ -866,6 +866,7 @@ function dayNightPart() {
 
   //for text
   colorMap2=constrain(350-colorMap,0,255);
+  //print(colorMap2);
 
 }
 

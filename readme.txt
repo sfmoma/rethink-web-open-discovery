@@ -43,8 +43,10 @@ Clicking on white space applies a force vector to the objects, like an additiona
 Canvas boundaries update dynamically if you change the window size (i.e. tiles will know their boundaries in space)
 
 Accessibility Narration + Interface:
+Uses p5.speech developed by The Ability Project
 
 Shift - welcome / instructions
 Right arrow - advance article
 Left arrow - previous article
 Enter - open article
+Automatically speaks wind speed and heading

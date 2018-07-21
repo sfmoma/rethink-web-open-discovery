@@ -491,7 +491,7 @@ function draw() {
     tiles3[i].applyForce(movingForce2);
 
     tiles3[i].move(mouseX,mouseY,tiles[i]);
-    tiles3[i].display();
+    tiles3[i].displayEasterEgg();
     tiles3[i].checkEdges();
 
   }
@@ -500,10 +500,11 @@ function draw() {
   //display the open space logo
   image(logo,(windowWidth/2)-200,(windowHeight/2)-200,400,400);
 
-  var fps = frameRate();
-  textSize(12);
-  fill(colorMap2,colorMap2,colorMap2);
-  text("FPS: " + fps.toFixed(2), 10, 20);
+  //frame rate display to check for performance
+  //var fps = frameRate();
+  //textSize(12);
+  //fill(colorMap2,colorMap2,colorMap2);
+  //text("FPS: " + fps.toFixed(2), 10, 20);
 
   if(windangle!=undefined) {
   text("W° " + floor(degrees(windangle)), 10, windowHeight-40);
@@ -794,7 +795,7 @@ function dayNightPart() {
 
   //military time
   sunriseStart = 5;
-  var sunriseEnd = 6;
+  var sunriseEnd = 8;
   sunsetStart = 18;
   var sunsetEnd = 21;
   var sunsetDuration=(sunsetEnd-sunsetStart)*60;
@@ -1026,6 +1027,32 @@ class contentTile {
    textFont("Georgia");
 
    text(this.title + " by " + this.author, this.position.x+this.width+10, this.position.y,textWidth,150);
+
+  }
+
+  displayEasterEgg(bounds) {
+
+    //for easter eggs make them display differently
+    push();
+    translate(0, 0);
+    noFill();
+    stroke(0,0,0)
+    strokeWeight(5);
+    rect(this.position.x,this.position.y,this.width,this.height);
+    pop();
+
+   //display the images
+   image(this.imageSource,this.position.x,this.position.y,this.width,this.height)
+   if(this.bounds) this.showBounds();
+
+   textSize(12);
+
+  // var colorFade2=map(h, 0, 24, 0, 255);
+   //invert text color from background
+   fill(colorMap2,colorMap2,colorMap2);
+   textFont("Georgia");
+
+   text(this.title + " - " + this.author, this.position.x+this.width+10, this.position.y,textWidth,150);
 
   }
 

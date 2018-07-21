@@ -373,18 +373,18 @@
   {
     "tag": "Easter Egg",
     "articles": [{
-        "title": "Easter Egg",
+        "title": "House Party",
         "url": "https://www.arcade-museum.com/cheats.php",
-        "author": "Velveteen Rabbit",
-        "excerpt": "This is an easter egg",
-        "img": "/images/sfmoma.png"
+        "author": "Friday, July 20, 2018 @ 8:30PM",
+        "excerpt": "House Party",
+        "img": "https://s3-us-west-2.amazonaws.com/sfmomamedia/media/t/uploads/images/RUzkCq-FIwse.jpg"
       },
 			{
-				"title": "Easter Egg",
+				"title": "Deep Cuts: Julie Charles on Louise Bourgeois",
 				"url": "https://www.arcade-museum.com/cheats.php",
-				"author": "Mr. Rabbit",
-				"excerpt": "Is it possible to close the circuit between art and life so tight that another dimension shimmers on the horizon? One trick of New Narrative is to look so intensely at the beloved that you can write (into) yourself through a refracted gaze. New Narrative represents one of the great experiments with autobiography because it foregrounds the embodied circuitry of desire, damage, and influence. Its impetuous, gossipy, and experimental mode tracks how bodies touch up against each other and change.",
-				"img": "/images/sfmoma.png"
+				"author": "Friday, July 20, 2018 @ noon",
+				"excerpt": "Deep Cuts: Julie Charles on Louise Bourgeois",
+				"img": "https://s3-us-west-2.amazonaws.com/sfmomamedia/media/t/uploads/images/OV3kIA8eOQwH.jpg"
 			}
 		]
 	}

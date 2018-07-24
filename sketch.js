@@ -33,6 +33,7 @@ var windangle;
 var windmag;
 var movingForce;
 var movingForce2;
+var gotWeather=0;
 
 //for perlin noise
 var xoff=0;
@@ -97,7 +98,7 @@ data = loadJSON("data.json", gotData);
 }
 
 function askWeather() {
-loadJSON("http://api.apixu.com/v1/current.json?key=6836e9b60d19486981102955180607&q=94103", gotWeatherData);
+loadJSON("https://api.apixu.com/v1/current.json?key=333a64a6c7284abba02220407182407&q=94103", gotWeatherData);
 }
 
 //************************************
@@ -141,7 +142,12 @@ function setup() {
 
  //check weather every x milliseconds
  askWeather();
+ //read the weather with the voice
+
+ //update the weather
  setInterval(askWeather,40000);
+ //read the weather every x ms so the voice is not interupting the experience and being annoying
+ setInterval(readWeather,120000);
 
  //establish geo fence - third number is radius
  fence = new geoFenceCircle(37.785718, -122.401051, 150, insideTheFence, outsideTheFence, 'mi');
@@ -649,8 +655,23 @@ movingForce.add(wind);
 movingForce2.sub(wind);
 
 wind.mult(windmagConstrained);
+
+//read once when the weather is loaded, and never do it again
+gotWeather+=1;
+
+if(gotWeather==1) {
+readWeather();
+}
+
 //movingForce.div(40);
-voice.speak("Updating wind data. Current wind speed is"+windmag+"miles per hour and current win direction is"+degrees(windangle)+"degrees.");
+}
+
+function readWeather() {
+  //console.log(windmag);
+  //don't talk if windmag is undefined, otherwise speak
+  if(windmag!=undefined) {
+  voice.speak("Updating wind data. Current wind speed is"+windmag+"miles per hour and current win direction is"+degrees(windangle)+"degrees.");
+  }
 }
 
 

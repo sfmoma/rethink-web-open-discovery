@@ -98,7 +98,7 @@ data = loadJSON("data.json", gotData);
 }
 
 function askWeather() {
-loadJSON("https://api.apixu.com/v1/current.json?key=333a64a6c7284abba02220407182407&q=94103", gotWeatherData);
+  loadJSON("https://api.apixu.com/v1/current.json?key=333a64a6c7284abba02220407182407&q=94103", gotWeatherData);
 }
 
 //************************************

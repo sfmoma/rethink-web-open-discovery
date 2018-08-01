@@ -9,7 +9,10 @@ To run: py simple-cors-http-server.py
 Go to this URL in browser: localhost:8000
 
 Pulls local JSON for SFMOMA content tiles, this can be updated to automatically update using a setTimer() function
+
 Arranges tiles into three streams (JSON articles split in two streams, easter eggs are a third)
+The code is messy for how it splits the JSON, but the system can be arranged so streams have their own behaviors (the point of splitting them up).
+
 Easter eggs are pulled from the JSON tag "Easter Egg"
 Each stream can have their own physics applied to them which can change the visual effects from side scrolling, to kites like behavior
 Easter eggs move opposite of wind added force of perlin noise for a semi-randomized movement
@@ -49,4 +52,4 @@ Shift - welcome / instructions
 Right arrow - advance article
 Left arrow - previous article
 Enter - open article
-Automatically speaks wind speed and heading
+Automatically speaks wind speed and heading every three minutes.

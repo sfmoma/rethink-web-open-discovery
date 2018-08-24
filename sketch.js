@@ -159,6 +159,9 @@ function setup() {
 
   textWidth=100;
 
+  //create link for openspaces projects
+  displayLink();
+
   //initialize the first stream - this is the second half of the articles, so count backwards
   //subtract one from length to avoid overlap, duplicate tile in both streams
   for (var i = floor(imageTiles.length / 2)-1; i >= 0; i--) {
@@ -427,6 +430,9 @@ function draw() {
 
   dayNightPart();
   background(colorMapRed,colorMapGreen,colorMapBlue);
+
+  //show link for openspaces projects
+  moveLink();
 
   //error check if no weather data, or it's still loading, or an error
   if(weather) {
@@ -795,6 +801,33 @@ for (var i = 0; i < tiles3.length; i++) {
 //************************************
 //************************************
 //************************************
+//button for rethink web setAttributes
+
+function displayLink() {
+
+button = createButton('More Rethink-Web Projects');
+button.position(this.width-195, this.height-55);
+button.class("button")
+button.mousePressed(openLink);
+
+}
+
+function moveLink() {
+
+button.position(this.width-195, this.height-55);
+
+}
+
+function openLink() {
+
+    window.open("https://openspace.sfmoma.org/series/rethink-web/");
+}
+
+//************************************
+//************************************
+//************************************
+//************************************
+//************************************
 //************************************
 //************************************
 //************************************
@@ -839,9 +872,6 @@ function dayNightPart() {
     colorMapGreen=map(remapG,0,sunriseDuration,0,255);
     colorMapBlue=map(remapB,0,sunriseDuration,0,255);
 
-     print(colorMapRed + "red");
-     print(colorMapGreen + "green");
-     print(colorMapBlue + "blue");
 
   }
 

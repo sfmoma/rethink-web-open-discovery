@@ -805,8 +805,13 @@ for (var i = 0; i < tiles3.length; i++) {
 
 function displayLink() {
 
+<<<<<<< HEAD
 button = createButton('Part of the Rethink: Web series');
 button.position(this.width-201, this.height-55);
+=======
+button = createButton('Part of the Rethink: Web series.');
+button.position(this.width-195, this.height-55);
+>>>>>>> 3e27983fa05a4adc778f83fc51029c585f1f2f4f
 button.class("button")
 button.mousePressed(openLink);
 

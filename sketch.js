@@ -520,7 +520,7 @@ function draw() {
 
   if(windangle!=undefined) {
   text("W° " + floor(degrees(windangle)), 10, windowHeight-40);
-  text("WM: " + windmag, 10, windowHeight-25);
+  text("WS: " + windmag, 10, windowHeight-25);
   } else {
   text("weather is off",10, windowHeight-25);
 }
@@ -676,7 +676,7 @@ function readWeather() {
   //console.log(windmag);
   //don't talk if windmag is undefined, otherwise speak
   if(windmag!=undefined) {
-  voice.speak("Updating wind data. Current wind speed is"+windmag+"miles per hour and current win direction is"+degrees(windangle)+"degrees.");
+  voice.speak("Updating wind data. Current wind speed is"+windmag+"miles per hour and current win direction is"+floor(degrees(windangle))+"degrees.");
   }
 }
 

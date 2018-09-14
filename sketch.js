@@ -805,7 +805,7 @@ for (var i = 0; i < tiles3.length; i++) {
 
 function displayLink() {
 
-button = createButton('More Rethink-Web Projects');
+button = createButton('Part of the Rethink: Web series.');
 button.position(this.width-195, this.height-55);
 button.class("button")
 button.mousePressed(openLink);
